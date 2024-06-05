@@ -1,0 +1,13 @@
+git 관리 방법
+
+- 프로젝트 가져오기 
+git clone https://github.com/JaeBeomk/PMC.git
+
+- branch(작업공간) 생성
+git checkout -b "[name]"
+
+- branch(작업공간) 전환
+git switch -c "[name]"
+
+- branch 생성 확인
+git branch
