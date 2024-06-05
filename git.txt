@@ -16,7 +16,8 @@ git branch
 $ git checkout DEV
 $ git checkout -b ["name"]
 ----- work ------
+$ git merge DEV
 $ git add .
-$ git commit -m "[author] : xxx , [message] : xxxx"
+$ git commit -m "[작업내용] : xxxx"
 $ git checkout DEV
 $ git merge ["name"]

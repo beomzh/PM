@@ -8,13 +8,18 @@ ui/ux => 관리자 느낌 => image 처리
 
 
 # 작업 도구
-협업 = git
-개발tool = VScode
-언어 = Python / HTML / CSS / JavaScript 
-프레임워크 = django
-환경 = gcp -> vm
-관리 도구 = Kubernetes
-DB = ?
+1) 협업 = github
+2) 개발tool = VScode
+3) 언어 
+- backend: Python 
+- frontend: HTML / CSS / JavaScript 
+- DB = ?
+- 관리 도구 = Kubernetes
+
+4) 프레임워크 = django
+5) 작업 환경 = gcp -> vm
+
+
 
 
 # 요청
