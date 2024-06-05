@@ -7,7 +7,16 @@ git clone https://github.com/JaeBeomk/PMC.git
 git checkout -b "[name]"
 
 - branch(작업공간) 전환
-git switch -c "[name]"
+git checkout "[name]"
 
 - branch 생성 확인
 git branch
+
+# 실제 작업스텝
+$ git checkout DEV
+$ git checkout -b ["name"]
+----- work ------
+$ git add .
+$ git commit -m "[author] : xxx , [message] : xxxx"
+$ git checkout DEV
+$ git merge ["name"]
