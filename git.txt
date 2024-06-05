@@ -12,12 +12,27 @@ git checkout "[name]"
 - branch 생성 확인
 git branch
 
+
+
+
+git remote -v -> 내 파일들이 올라갈 url(주소)확인
+
+git push origin feature/kangminji -> 푸쉬! 올리기!
+
 # 실제 작업스텝
 $ git checkout DEV
-$ git checkout -b ["name"]
------ work ------
-$ git merge DEV
+$ git checkout -b ["name"]  -> branch 생성 후 즉시 적용
+$ git branch -> 내 브랜치 확인
+$ git merge DEV -> DEV branch 내용 가져오기
+
+# ----- work ------
+# ---- 작업 후 ----
+
 $ git add .
 $ git commit -m "[작업내용] : xxxx"
+$ git push
+
+
+# ---- 관리자 허가 -----
 $ git checkout DEV
 $ git merge ["name"]
