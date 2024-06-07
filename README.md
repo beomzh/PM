@@ -6,9 +6,8 @@
 client = 화면 제외
 ui/ux => 관리자 느낌 => image 처리
 
-
 # 작업 도구
-1) 협업 = github
+1) 협업 = github / discord
 2) 개발tool = VScode
 3) 언어 
 - backend: Python 
@@ -20,7 +19,11 @@ ui/ux => 관리자 느낌 => image 처리
 5) 작업 환경 = gcp -> vm
 
 
-
-
 # 요청
 1) git clone 이후 dev branch에서 - 자신의 branch 생성 후 test.txt파일에 업로드 해주세요
+- git test용
+
+# TO-DO
+1) 사용자 git repo 추가
+2) discord 추가
+3) 정확한 설계를 위한 회의 -> 어떤것을 만들것인지
