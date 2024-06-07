@@ -1,0 +1,27 @@
+# 현재 docker image 테스트 후 배포
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: k-dajngo
+  name: k-dajngo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k-dajngo
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: k-dajngo
+    spec:
+      containers:
+      - image: test
+        name: test
+        ports:
+        - containerPort: 8000
+        resources: {}
+status: {}
