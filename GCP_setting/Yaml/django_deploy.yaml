@@ -4,23 +4,25 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: k-dajngo
-  name: k-dajngo
+    app: k-django
+  name: k-django
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: k-dajngo
+      app: k-django
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: k-dajngo
+        app: k-django
     spec:
       containers:
-      - image: test
-        name: test
+      - image: beomzh/pmc
+        imagePullSecrets: 
+          - name:  myregistrykey # 생성 예정
+        name: django
         ports:
         - containerPort: 8000
         resources: {}
