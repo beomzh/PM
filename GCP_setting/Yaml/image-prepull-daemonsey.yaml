@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: image-prepull
+  labels:
+    app: image-prepull
+spec:
+  selector:
+    matchLabels:
+      app: image-prepull
+  template:
+    metadata:
+      labels:
+        app: image-prepull
+    spec:
+      containers:
+      - name: image-prepull
+        image: beomzh/pmc:latest
+        command: [ "sh", "-c", "echo Image pulled successfully" ]
+        imagePullPolicy: Always
+      imagePullSecrets:
+      - name: myregistrykey

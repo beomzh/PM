@@ -20,10 +20,10 @@ spec:
     spec:
       containers:
       - image: beomzh/pmc
-        imagePullSecrets: 
-          - name:  myregistrykey # 생성 예정
         name: django
         ports:
         - containerPort: 8000
         resources: {}
+      imagePullSecrets: 
+      - name:  myregistrykey # 생성 예정
 status: {}
