@@ -12,7 +12,7 @@ ui/ux => 관리자 느낌 => image 처리
 3) 언어 
 - backend: Python 
 - frontend: HTML / CSS / JavaScript 
-- DB = ?
+- DB = mariadb
 - 관리 도구 = Kubernetes
 
 4) 프레임워크 = django
@@ -20,10 +20,14 @@ ui/ux => 관리자 느낌 => image 처리
 
 
 # 요청
-1) git clone 이후 dev branch에서 - 자신의 branch 생성 후 test.txt파일에 업로드 해주세요
-- git test용
+1) chung님 DB스키마 설계 및 table 생성 쿼리 및 샘플 데이터 입력 쿼리 작성 부탁드립니다.
+- user 테이블(클라이언트/어드민) 구분
+- 원자재 테이블
+- 상품 테이블
+- 자금 관련 테이블(user의 컬럼으로 합쳐도 무방)
 
-# TO-DO
-1) 사용자 git repo 추가
-2) discord 추가
-3) 정확한 설계를 위한 회의 -> 어떤것을 만들것인지
+2) bin99님 html 화면을 2개정도 구성을 하려고 합니다.
+- index.html의 메인페이지 구성 부탁드립니다.
+- goods.html = 키오스크 화면에 맞게 상품만 추가할 수 있게 만들어주세요.
+- README.md의 윗부분 설명한 정리도 부탁드립니다.
+
