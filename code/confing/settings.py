@@ -74,26 +74,20 @@ WSGI_APPLICATION = 'confing.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# django 기본 dbms는 sqlite
+# django 기본 dbms는 sqlite이지만 mariadb 사용
+# deploy설정에있는 env에서 가져온다.
+import os
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'your_database_name',       # 데이터베이스 이름
+        'USER': 'your_database_user',       # 데이터베이스 사용자 이름
+        'PASSWORD': os.getenv('DB_PASSWORD', ''),   # 환경 변수에서 데이터베이스 암호 가져오기
+        'HOST': os.getenv('DB_HOST', 'mariadb-service'),  # 환경 변수에서 MariaDB Pod을 노출하는 Kubernetes 서비스의 이름 가져오기
+        'PORT': os.getenv('DB_PORT', '3306'),             # 환경 변수에서 MariaDB의 포트 번호 가져오기
     }
 }
 
-# mysql 예시
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#         'USER':'',
-#         'PASSWORD':'',
-#         'HOST':'',
-#         'PORT':'',
-#         "OPTIONS": {"charset":"utf8mb4"},
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
