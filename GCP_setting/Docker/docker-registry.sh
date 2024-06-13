@@ -14,3 +14,7 @@ kubectl create secret docker-registry myregistrykey \
   --docker-username=$DOCKER_USERNAME \
   --docker-password=$DOCKER_PASSWORD \
   --docker-email=$DOCKER_EMAIL
+
+
+kubectl apply -f image-pull-daemonset.yaml
+kubectl apply -f image-pull-cronjob.yaml

@@ -14,7 +14,6 @@ ui/ux => 관리자 느낌 => image 처리
 - frontend: HTML / CSS / JavaScript 
 - DB = mariadb
 - 관리 도구 = Kubernetes
-
 4) 프레임워크 = django
 5) 작업 환경 = gcp -> vm
 
