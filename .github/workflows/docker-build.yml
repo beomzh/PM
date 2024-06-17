@@ -25,6 +25,6 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        cd /code
+        cd code
         docker build -t beomzh/pmc .
         docker docker push beomzh/pmc
