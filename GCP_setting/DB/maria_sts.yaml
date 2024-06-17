@@ -23,7 +23,7 @@ spec:
               name: mariadb-secret
               key: mariadb-root-password
         - name: MYSQL_DATABASE
-          value: pmc
+          value: mydatabase
         ports:
         - containerPort: 3306
         volumeMounts:

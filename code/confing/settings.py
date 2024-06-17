@@ -80,11 +80,11 @@ import os
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'your_database_name',       # 데이터베이스 이름
-        'USER': 'your_database_user',       # 데이터베이스 사용자 이름
-        'PASSWORD': os.getenv('DB_PASSWORD', ''),   # 환경 변수에서 데이터베이스 암호 가져오기
-        'HOST': os.getenv('DB_HOST', 'mariadb-service'),  # 환경 변수에서 MariaDB Pod을 노출하는 Kubernetes 서비스의 이름 가져오기
-        'PORT': os.getenv('DB_PORT', '3306'),             # 환경 변수에서 MariaDB의 포트 번호 가져오기
+        'NAME': 'mydatabase', # Database 이름 # default=mydatabase
+        'USER': 'root', # 데이터베이스에서 사용할 계정
+        'PASSWORD': 'root', # 계정의 비밀번호
+        'HOST': '10.108.88.42', # 데이테베이스 주소
+        'PORT': '3306', # 데이터베이스 포트, mysql 디폴트값은 3306
     }
 }
 
