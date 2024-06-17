@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Table</title>
+</head>
+<body>
+    <h1>Test Table</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        {% for test in tests %}
+        <tr>
+            <td>{{ test.name }}</td>
+            <td>{{ test.description }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

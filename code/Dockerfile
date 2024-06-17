@@ -3,6 +3,11 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir /code
 WORKDIR /code
 COPY requirements.txt /code/
+# 필요한 패키지 설치
+RUN apt-get update \
+    && apt-get install -y python3-dev default-libmysqlclient-dev build-essential \
+    && apt-get clean
+    
 RUN pip install -r requirements.txt
 COPY . /code/
 
