@@ -11,7 +11,7 @@ spec:
         spec:
           containers:
           - name: image-pull
-            image: be/pm:latest
+            image: beomzh/pmc:latest
             command:
             - /bin/sh
             - -c
