@@ -26,10 +26,12 @@ $ git merge DEV -> DEV branch 내용 가져오기
 $ git pull DEV
 
 # ---- 작업 후 ----
+
 $ git add .
 $ git commit -m "[작업내용] : xxxx"
 $ git push
 $ git checkout DEV
+$ git pull 
 $ git merge ["name"]
 
 # ---- 관리자 허가 -----
