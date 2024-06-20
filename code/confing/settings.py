@@ -83,8 +83,8 @@ DATABASES = {
         'NAME': 'mydatabase', # Database 이름 # default=mydatabase
         'USER': 'root', # 데이터베이스에서 사용할 계정
         'PASSWORD': 'root', # 계정의 비밀번호
-        'HOST': '10.108.88.42', # 데이테베이스 주소
-        'PORT': '3306', # 데이터베이스 포트, mysql 디폴트값은 3306
+        'HOST': '34.16.227.213', # 데이테베이스 주소 # db 접속값으로 해줘야 하나보다...  10.108.88.42
+        'PORT': '32000', # 데이터베이스 포트, mysql 디폴트값은 3306
     }
 }
 

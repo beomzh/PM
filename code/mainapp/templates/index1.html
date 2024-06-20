@@ -10,12 +10,13 @@
             <th>Name</th>
             <th>Description</th>
         </tr>
-        {% for test in tests %}
+        {% comment %} 테스트 테이블 생성 필요 {% endcomment %}
+        {% comment %} {% for test in tests %}
         <tr>
             <td>{{ test.name }}</td>
             <td>{{ test.description }}</td>
         </tr>
-        {% endfor %}
+        {% endfor %} {% endcomment %}
     </table>
 </body>
 </html>
