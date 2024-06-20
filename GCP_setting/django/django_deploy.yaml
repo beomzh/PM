@@ -7,7 +7,7 @@ metadata:
     app: k-django
   name: k-django
 spec:
-  replicas: 1
+  replicas: 2 # 각 노드별 배포
   selector:
     matchLabels:
       app: k-django
@@ -23,7 +23,13 @@ spec:
         name: django
         ports:
         - containerPort: 8000
-        resources: {}
+        resources: 
+          requests:
+            cpu: "500m"  # 0.5 CPU
+            memory: "256Mi"
+          limits:
+            cpu: "1000m"  # 1 CPU
+            memory: "512Mi"
       imagePullSecrets: 
       - name:  myregistrykey # 생성 예정
 status: {}
