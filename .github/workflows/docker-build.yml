@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout main
       uses: actions/checkout@v2
 
     - name: Set up Docker Buildx
@@ -27,4 +27,4 @@ jobs:
       run: |
         cd code
         docker build -t beomzh/pmc .
-        docker docker push beomzh/pmc
+        docker push beomzh/pmc
