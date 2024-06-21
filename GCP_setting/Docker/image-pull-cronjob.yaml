@@ -11,13 +11,13 @@ spec:
         spec:
           containers:
           - name: image-pull
-            image: beomzh/pmc:latest
+            image: docker:24.0.5-cli
             command:
             - /bin/sh
             - -c
             - |
               echo "Pulling image..."
-              docker pull beomzh/pmc:latest
+              sudo docker pull beomzh/pmc
               echo "Image pulled successfully"
           restartPolicy: OnFailure
           imagePullSecrets:

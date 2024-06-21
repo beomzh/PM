@@ -23,8 +23,17 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
+      # git version 추출해 tag 명에 추가
+    - name: Extract git version
+      id: vars
+      run: echo ::set-output name=git_version::$(echo ${{ github.sha }} | head -c 8)
+
+      # latest이미지와 고유값 이미지 둘다 push
     - name: Build and push Docker image
       run: |
+        TAG=${{ github.run_number }}-${{ steps.vars.outputs.git_version }}
         cd code
-        docker build -t beomzh/pmc .
-        docker push beomzh/pmc
+        docker build -t beomzh/pmc:${TAG} .
+        docker push beomzh/pmc:${TAG}
+        docker tag beomzh/pmc:${TAG} beomzh/pmc:latest 
+        docker push beomzh/pmc:latest

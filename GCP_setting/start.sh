@@ -9,7 +9,5 @@ kubectl apply -f DB/maria_svc.yaml
 kubectl apply -f django/django_deploy.yaml
 kubectl apply -f django/django_svc.yaml
 
-# hpa 설정
-kubectl autoscale deployment k-django --cpu-percent=50 --min=2 --max=5
-kubectl autoscale statefulset mariadb --cpu-percent=50 --min 1 --max 5
+
 

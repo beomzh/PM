@@ -34,4 +34,5 @@
 # Work
 - django DB 연동 방식 변경  클러스터 내부 IP -> 외부 IP
 - build 테스트 -> main push 시 자동 image 빌드 후 docker hub 업로드 확인 -> 각 노드별 image 자동 pulling 확인
-
+- git 서브모듈 오류로 /code/mainapp/templates/kimsclub/PMC 삭제
+- cronjob과 daemonset 두개로 image pull 사용시 리소스가 과하게 사용되는걸로 보여 한개 삭제

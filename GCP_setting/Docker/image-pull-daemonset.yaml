@@ -15,8 +15,19 @@ spec:
     spec:
       containers:
       - name: image-prepull
-        image: beomzh/pmc:latest
-        command: [ "sh", "-c", "echo Image pulled successfully" ]
+        image: docker:24.0.5-cli
+        command: [ "sh", "-c", "while true; do echo 'Pulling image...'; docker pull beomzh/pmc ; echo 'Image pulled successfully'; sleep 3600; done" ]
         imagePullPolicy: Always
+        # docker cli를 사용하기 위해
+        volumeMounts:
+        - name: docker-socket
+          mountPath: /var/run/docker.sock
       imagePullSecrets:
       - name: myregistrykey
+      volumes:
+      - name: docker-socket
+        hostPath:
+          path: /var/run/docker.sock
+      # root 유저로 실행
+      securityContext:
+        runAsUser: 0
