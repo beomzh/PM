@@ -1,0 +1,28 @@
+server시작
+# port 변경시 뒤에 적어준다
+python manage.py runserver (8080)
+
+project 생성
+# 프로젝트명 뒤에 .을 붙히면 현재파일에 생성된다.
+django-admin startproject (프로젝트명)
+
+project 기능단위인 앱을 만들때
+python manage.py startapp (앱이름)
+
+관리자계정생성
+python manage.py createsuperuser
+
+비밀번호 변경
+python manage.py changepassword
+
+DB적용 내용정리(모델 변경사항 있을시)
+python manage.py makemigrations
+
+DB에 실제변경을 반영
+python manage.py migrate
+
+
+python manage.py shell (query set)사용방법
+접속 후 해당 모델 import
+from [].models.py import []
+[].objects.all()
