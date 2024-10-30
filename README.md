@@ -1,8 +1,7 @@
-# PMC
+# 변경 예정
 - 그룹웨어 설계
 - ERP의 역활 포함
   - 전자결재
-  -
 
 # 작업 도구
 1) 협업 = github / discord
@@ -23,4 +22,5 @@
 - DB - server
 
 # CI/CD
+- .github/workflows/docker-build.yml 파일 주석처리
 - github -> jenkins -> imagestream -> deploy
