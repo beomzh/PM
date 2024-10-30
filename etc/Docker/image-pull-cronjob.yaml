@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: image-pull-cronjob
+spec:
+  schedule: "0 * * * *"  # 매 시간마다 실행 
+  # 분 시 일 월 요일(요일로 구분시 해당 요일에 계속 돌아가는 이슈가 있었어서 제외하고 설정)
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: image-pull
+            image: beomzh/pmc:latest
+            command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Pulling image..."
+              docker pull beomzh/pmc:latest
+              echo "Image pulled successfully"
+          restartPolicy: OnFailure
+          imagePullSecrets:
+          - name: myregistrykey

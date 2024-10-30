@@ -1,0 +1,5 @@
+-- create_user.sql
+CREATE DATABASE IF NOT EXISTS pmc;
+CREATE USER IF NOT EXISTS 'tuser'@'%' IDENTIFIED BY 'tpass';
+GRANT ALL PRIVILEGES ON mydatabase.* TO 'tuser'@'%';
+FLUSH PRIVILEGES;
