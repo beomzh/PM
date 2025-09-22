@@ -4,18 +4,19 @@
   - 전자결재
 
 # 작업 도구
-1) 협업 = github / discord
-2) 개발tool = VScode
-3) 언어
-- OS :
-- backend: JAVA
-- frontend: HTML / CSS / JavaScript
-- DB = 
-- 관리 도구 = Kubernetes
-4) 프레임워크 = 
-5) 작업 환경 = 
-
+협업 = github / discord
+개발tool = VScode
+언어
+OS :
+DB  
+docker version = docker-ce 28.3.2
 
 # Work
 
 # CI/CD
+
+# RPM
+ant-openjdk17.noarch:1.10.9-15.el9
+ant:1.10.9-15.el9
+ant-lib:6.4.0-1.el9
+javapackages-tools6.4.0-1.el9

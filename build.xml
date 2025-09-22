@@ -1,0 +1,24 @@
+<project name="HelloWorld" default="run">
+    <property name="src.dir" value="src"/>
+    <property name="build.dir" value="build"/>
+    <property name="main.class" value="HelloWorld"/>
+
+    <target name="clean" description="빌드 결과물 폴더를 삭제합니다.">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="compile" description="자바 소스 코드를 컴파일합니다.">
+        <echo message="컴파일을 시작합니다..."/>
+        <mkdir dir="${build.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${build.dir}"/>
+    </target>
+
+    <target name="run" depends="compile" description="컴파일 후 프로그램을 실행합니다.">
+        <echo message="프로그램을 실행합니다..."/>
+        <java classname="${main.class}">
+            <classpath>
+                <pathelement path="${build.dir}"/>
+            </classpath>
+        </java>
+    </target>
+</project>
