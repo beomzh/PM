@@ -1,12 +1,7 @@
-# 변경 예정
-- 그룹웨어 설계
-- ERP의 역활 포함
-  - 전자결재
-
 # 작업 도구
 협업 = github / discord
 개발tool = VScode
-언어
+언어 :
 OS :
 DB  
 docker version = docker-ce 28.3.2
@@ -14,6 +9,9 @@ docker version = docker-ce 28.3.2
 # Work
 
 # CI/CD
+1. cd command
+2. 01-war-build.sh
+3. 02-docker-build.sh
 
 # RPM
 ant-openjdk17.noarch:1.10.9-15.el9
