@@ -7,20 +7,15 @@
 1) 협업 = github / discord
 2) 개발tool = VScode
 3) 언어
-- OS : rhel 9.4
-- backend: Python3.11
+- OS :
+- backend: JAVA
 - frontend: HTML / CSS / JavaScript
-- DB = postgre
-- 관리 도구 =Redhat Openshift Conatainer Platform(Kubernetes) == 4.16.0
-4) 프레임워크 = django == 5.1.2
-5) 작업 환경 = gcp -> vm => vm
+- DB = 
+- 관리 도구 = Kubernetes
+4) 프레임워크 = 
+5) 작업 환경 = 
 
 
 # Work
-- apps 프로젝트 생성
-- Docker Hub -> ocp imgestream
-- DB - server
 
 # CI/CD
-- .github/workflows/docker-build.yml 파일 주석처리
-- github -> jenkins -> imagestream -> deploy
