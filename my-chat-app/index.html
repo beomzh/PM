@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>실시간 채팅방</title>
+  <style>
+    body { margin: 0; padding-bottom: 3rem; font-family: sans-serif; }
+    /* 채팅 입력창 스타일 */
+    #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
+    #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
+    #input:focus { outline: none; }
+    #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; cursor: pointer; }
+
+    /* 메시지 목록 스타일 */
+    #messages { list-style-type: none; margin: 0; padding: 0; }
+    #messages > li { padding: 0.5rem 1rem; }
+    #messages > li:nth-child(odd) { background: #efefef; }
+  </style>
+</head>
+<body>
+  
+  <ul id="messages"></ul>
+
+  <form id="form" action="">
+    <input id="input" autocomplete="off" /><button>전송</button>
+  </form>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    // 1. 소켓 연결 시도
+    var socket = io();
+
+    var form = document.getElementById('form');
+    var input = document.getElementById('input');
+    var messages = document.getElementById('messages');
+
+    // 2. 폼 전송(Send 버튼) 이벤트
+    form.addEventListener('submit', function(e) {
+      e.preventDefault(); // 페이지 새로고침 방지
+      if (input.value) {
+        // 서버로 'chat message'라는 이벤트와 함께 텍스트 보냄
+        socket.emit('chat message', input.value);
+        input.value = ''; // 입력창 비우기
+      }
+    });
+
+    // 3. 서버로부터 메시지를 받았을 때 ('chat message')
+    socket.on('chat message', function(msg) {
+      var item = document.createElement('li'); // 새 줄 생성
+      item.textContent = msg; // 내용 채우기
+      messages.appendChild(item); // 목록에 추가
+      window.scrollTo(0, document.body.scrollHeight); // 스크롤 맨 아래로
+    });
+  </script>
+</body>
+</html>

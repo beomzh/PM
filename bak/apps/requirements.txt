@@ -1,4 +1,0 @@
-# pip list
-# pip freeze > requirements.txt
-Django==5.0.3
-mysqlclient==2.2.4
