@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: chat-ingress
+  namespace: chat
+spec:
+  ingressClassName: openshift-default
+  rules:
+    - host: chat.apps.ocp.beom.zh
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: chat-service
+                port:
+                  number: 3000
