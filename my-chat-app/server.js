@@ -1,33 +1,41 @@
 const express = require('express');
 const http = require('http');
 const { Server } = require("socket.io");
-
+const path = require('path');
 const app = express();
-const server = http.createServer(app); // Express 앱을 기반으로 HTTP 서버 생성
-const io = new Server(server); // 그 위에 Socket.io 서버를 얹음
+const server = http.createServer(app);
+const io = new Server(server);
+const port=3000;
 
-// 1. 프론트엔드 파일(index.html) 보여주기
+// 모든 정적 파일 제공
+app.use(express.static(__dirname));
+
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// 2. 소켓 연결 로직 (핵심!)
 io.on('connection', (socket) => {
-  console.log('유저가 입장했습니다.');
+  console.log('유저 입장:', socket.id);
+  // 입장시 헤더 로그 출력
+  const timestamp = new Date().toISOString();
+    console.log(`\n[${timestamp}] === REQUEST HEADERS RECEIVED ===`);
+    console.log(JSON.stringify(socket.headers, null, 2)); 
+    console.log('==============================================\n');
 
-  // 클라이언트로부터 'chat message'라는 이름으로 메시지를 받으면
+  // 메시지 수신
   socket.on('chat message', (msg) => {
-    // 접속한 모든 사람(나 포함)에게 'chat message'로 다시 보냄
-    io.emit('chat message', msg); 
+    // 메시지와 함께 보낸 사람의 고유 ID를 모든 클라이언트에 전송
+    io.emit('chat message', { 
+      text: msg, 
+      senderId: socket.id 
+    });
   });
 
-  // 연결이 끊어졌을 때
   socket.on('disconnect', () => {
-    console.log('유저가 퇴장했습니다.');
+    console.log('유저 퇴장:', socket.id);
   });
 });
 
-// 3. 서버 실행 (3000번 포트)
-server.listen(3000, () => {
-  console.log('채팅 서버가 3000번 포트에서 실행 중입니다.');
+server.listen(port, () => {
+  console.log(`서버가 ${port}번 포트에서 실행 중입니다.`); 
 });

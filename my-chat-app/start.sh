@@ -1,6 +1,17 @@
 #!/bin/bash
 
 APP='chat-app'
-podman stop $APP
-podman rm $APP
-podman run -d -p 3000:3000 --name $APP localhost/node:v1
+
+REGISTRY='docker.io/beomzh'
+IMAGE_NAME='chat-app'
+ContainerEngine='podman'
+
+# test용
+$ContainerEngine rmi -f $REGISTRY/$IMAGE_NAME:v3
+$ContainerEngine build -t $REGISTRY/$IMAGE_NAME:v3 .
+
+
+$ContainerEngine stop $APP
+$ContainerEngine rm $APP
+$ContainerEngine run -d -p 3000:3000 --name $APP $REGISTRY/$IMAGE_NAME:v3
+
