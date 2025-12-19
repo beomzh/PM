@@ -1,0 +1,7 @@
+psql -U postgres
+
+\l = db 목록 확인
+\c {db_name} = db 접속
+\dt = db table 확인
+\d {table} = 테이블 구조 확인
+\q = 종료
