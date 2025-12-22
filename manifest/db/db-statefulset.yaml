@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: chat
+spec:
+  serviceName: "postgres-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: docker.io/library/postgres:18.1-alpine3.23
+        env:
+        - name: POSTGRES_DB
+          value: "chat_db"
+        - name: POSTGRES_PASSWORD
+          value: "temp_password"
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: pg-data
+          mountPath: /var/lib/postgresql
+  volumeClaimTemplates: # 각 Pod마다 독립된 저장소 할당 (상한선 설정)
+  - metadata:
+      name: pg-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "managed-nfs-storage"
+      resources:
+        requests:
+          storage: 1Gi # DB 용량 상한선

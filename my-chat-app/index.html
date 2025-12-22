@@ -1,20 +1,49 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Chat Room</title>
+  <title>Bright Chat</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="header">실시간 채팅방</div>
-  
-  <ul id="messages"></ul>
 
-  <form id="form" action="">
-    <input id="input" autocomplete="off" placeholder="메시지를 입력하세요..." />
-    <button>전송</button>
-  </form>
+  <div id="entry-container" class="container">
+    <div style="padding: 30px;">
+      <h1>💬 Chat App</h1>
+      <div id="menu-buttons">
+        <button onclick="showSection('signup-section')">회원가입</button>
+        <button onclick="showSection('login-section')">회원 로그인</button>
+        <button onclick="enterAsGuest()" class="guest-btn">비회원 입장</button>
+      </div>
+
+      <div id="login-section" style="display:none;">
+        <h3>로그인</h3>
+        <input type="text" id="login-user" placeholder="아이디">
+        <input type="password" id="login-pass" placeholder="비밀번호">
+        <button onclick="handleLogin()">로그인 시작</button>
+        <button onclick="showSection('menu-buttons')" class="back-btn">뒤로가기</button>
+      </div>
+
+      <div id="signup-section" style="display:none;">
+        <h3>회원가입</h3>
+        <input type="text" id="reg-user" placeholder="아이디">
+        <input type="password" id="reg-pass" placeholder="비밀번호">
+        <button onclick="handleSignup()">가입하기</button>
+        <button onclick="showSection('menu-buttons')" class="back-btn">뒤로가기</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="chat-container" class="chat-wrapper" style="display:none;">
+    <div class="chat-header">
+      <span>접속 중: <span id="display-name"></span></span>
+      <button onclick="location.reload()" class="logout-btn">나가기</button>
+    </div>
+    <ul id="messages"></ul>
+    <form id="chat-form">
+      <input id="m-input" autocomplete="off" placeholder="메시지를 입력하세요..." />
+      <button type="submit">전송</button>
+    </form>
+  </div>
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="script.js"></script>

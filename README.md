@@ -1,4 +1,5 @@
 # NodeJS 프로젝트
+- Google Gemini와 함께 만드는 nodejs 프로젝트
 
 ## 목표
 - 비동기 실시간 채팅 구현

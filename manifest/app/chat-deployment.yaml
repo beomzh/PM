@@ -18,4 +18,15 @@ spec:
         image: docker.io/beomzh/chat-app:v1  
         ports:
         - containerPort: 3000
+        env:
+        - name: DB_HOST
+          value: "postgres-service"
+        - name: DB_USER
+          value: "postgres"
+        - name: DB_NAME
+          value: "chat_db"
+        - name: DB_PASSWORD
+          value: "temp_password" # 실제 운영시는 Secret을 권장합니다.
+        - name: DB_PORT
+          value: "5432"
 

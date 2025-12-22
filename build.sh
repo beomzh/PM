@@ -5,6 +5,11 @@ IMAGE_NAME='chat-app'
 ContainerEngine='podman'
 BuildTarget='my-chat-app'
 
+# test build
+TEMP_CONTAINER="test-chat-app"
+FOR_PORT=3333
+ListenPort=3000
+
 # tag 순차 로직 생성
 LAST_TAG=$(podman images --format "{{.Tag}}" $REGISTRY/$IMAGE_NAME | grep '^v' | cut -d 'v' -f2 | sort -rn | head -n 1)
 
@@ -20,31 +25,7 @@ FULL_TAG="$REGISTRY/$IMAGE_NAME:$TAG"
 echo "Building: $FULL_TAG"
 $ContainerEngine build -t $FULL_TAG ./$BuildTarget
 
-
-echo "--------------------------------------------------"
-echo "🔍 검증 단계: 컨테이너를 임시로 기동합니다..."
-
-# 임시 컨테이너 실행 (백그라운드, 3000번 포트 연결)
-TEMP_CONTAINER=$($ContainerEngine run -d -p $PORT:$PORT --name "test-chat-app" $FULL_TAG)
-
-# 서버 응답 대기 (최대 5초)
-sleep 2
-HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:$PORT || echo "000")
-
-if [ "$HTTP_STATUS" == "200" ]; then
-  echo "✅ 서버가 정상적으로 응답합니다. (Status: 200)"
-else
-  echo "❌ 서버 응답에 문제가 있습니다. (Status: $HTTP_STATUS)"
-  $ContainerEngine stop $TEMP_CONTAINER && $ContainerEngine rm $TEMP_CONTAINER
-  exit 1
-fi
-
-echo "--------------------------------------------------"
-read -p "❓ 이미지($TAG)를 푸시하시겠습니까? (y/n): " CONFIRM
-
-echo "🧹 테스트 컨테이너를 정리 중..."
-$ContainerEngine stop $TEMP_CONTAINER && $ContainerEngine rm $TEMP_CONTAINER
-
+read -p "Deploy image $FULL_TAG to registry? (y/n): " CONFIRM
 # image 푸시 or 삭제
 if [[ "$CONFIRM" =~ ^[Yy]$ ]]; then
   echo "🚀 Pushing: $FULL_TAG"
