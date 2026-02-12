@@ -6,45 +6,35 @@
 </head>
 <body>
 
-  <div id="entry-container" class="container">
-    <div style="padding: 30px;">
-      <h1>💬 Chat App</h1>
-      <div id="menu-buttons">
-        <button onclick="showSection('signup-section')">회원가입</button>
-        <button onclick="showSection('login-section')">회원 로그인</button>
-        <button onclick="enterAsGuest()" class="guest-btn">비회원 입장</button>
-      </div>
-
-      <div id="login-section" style="display:none;">
-        <h3>로그인</h3>
-        <input type="text" id="login-user" placeholder="아이디">
-        <input type="password" id="login-pass" placeholder="비밀번호">
-        <button onclick="handleLogin()">로그인 시작</button>
-        <button onclick="showSection('menu-buttons')" class="back-btn">뒤로가기</button>
-      </div>
-
-      <div id="signup-section" style="display:none;">
-        <h3>회원가입</h3>
-        <input type="text" id="reg-user" placeholder="아이디">
-        <input type="password" id="reg-pass" placeholder="비밀번호">
-        <button onclick="handleSignup()">가입하기</button>
-        <button onclick="showSection('menu-buttons')" class="back-btn">뒤로가기</button>
-      </div>
+<div id="entry-container" class="container">
+  <div style="padding: 30px; text-align: center;">
+    <h1>💬 사내 메신저</h1>
+    <p style="color: #666; font-size: 0.9em;">성함이나 사번을 입력하고 입장하세요.</p>
+    <div id="login-section">
+      <input type="text" id="login-user" placeholder="이름 또는 사번" onkeypress="if(event.keyCode==13) handleLogin()">
+      <button onclick="handleLogin()">채팅 시작하기</button>
     </div>
   </div>
+</div>
 
-  <div id="chat-container" class="chat-wrapper" style="display:none;">
+<div id="chat-container" class="chat-wrapper" style="display:none;">
+  <div class="user-sidebar" style="width: 120px; border-right: 1px solid #ddd; padding: 10px;">
+    <h5>접속자</h5>
+    <ul id="user-list" style="list-style: none; padding: 0; font-size: 0.8em;"></ul>
+  </div>
+
+  <div style="flex: 1; display: flex; flex-direction: column;">
     <div class="chat-header">
       <span>접속 중: <span id="display-name"></span></span>
       <button onclick="location.reload()" class="logout-btn">나가기</button>
     </div>
     <ul id="messages"></ul>
     <form id="chat-form">
-      <input id="m-input" autocomplete="off" placeholder="메시지를 입력하세요..." />
+      <input id="m-input" autocomplete="off" placeholder="메시지 입력..." />
       <button type="submit">전송</button>
     </form>
   </div>
-
+</div>
   <script src="/socket.io/socket.io.js"></script>
   <script src="script.js"></script>
 </body>

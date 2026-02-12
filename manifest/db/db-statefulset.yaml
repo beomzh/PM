@@ -27,12 +27,12 @@ spec:
         volumeMounts:
         - name: pg-data
           mountPath: /var/lib/postgresql
-  volumeClaimTemplates: # 각 Pod마다 독립된 저장소 할당 (상한선 설정)
+  volumeClaimTemplates: 
   - metadata:
       name: pg-data
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "managed-nfs-storage"
+      storageClassName: "nfs-client" # sc 확인 필요
       resources:
         requests:
-          storage: 1Gi # DB 용량 상한선
+          storage: 1Gi 

@@ -4,8 +4,8 @@ APP='chat-app'
 
 REGISTRY='docker.io/beomzh'
 IMAGE_NAME='chat-app'
-ContainerEngine='podman'
-LAST_TAG=$(podman images --format "{{.Tag}}" $REGISTRY/$IMAGE_NAME | grep '^v' | cut -d 'v' -f2 | sort -rn | head -n 1)
+ContainerEngine='docker'
+LAST_TAG=$($ContainerEngine images --format "{{.Tag}}" $REGISTRY/$IMAGE_NAME | grep '^v' | cut -d 'v' -f2 | sort -rn | head -n 1)
 NEW_TAG=$((LAST_TAG + 1))
 TAG="v$NEW_TAG"
 

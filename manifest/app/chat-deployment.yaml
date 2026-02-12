@@ -4,7 +4,7 @@ metadata:
   name: chat-app
   namespace: chat
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: chat-app
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: chat-app
-        image: docker.io/beomzh/chat-app:v1  
+        image: registry.cn.openmaru-beom.local:8443/apps/chat-app:latest 
         ports:
         - containerPort: 3000
         env:

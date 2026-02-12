@@ -1,0 +1,11 @@
+- --email-domain=*
+- --http-address=0.0.0.0:4180
+- --code-challenge-method=S256
+- --cookie-secure=true
+- --cookie-httponly=true
+- --cookie-samesite=lax
+- --reverse-proxy=true
+- --set-xauthrequest=true
+- --pass-access-token=true
+- --pass-authorization-header=true
+- --cookie-name=_oauth_proxy_v2

@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oauth2-proxy
+  namespace: chat
+  labels:
+    app: oauth2-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oauth2-proxy
+  template:
+    metadata:
+      labels:
+        app: oauth2-proxy
+    spec:
+      volumes:
+      - name: config-volume
+        configMap:
+          name: oauth2-proxy-config
+      containers:
+      - name: oauth2-proxy
+        image: quay.io/oauth2-proxy/oauth2-proxy:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 4180
+          protocol: TCP
+        args:
+        - --config=/etc/oauth2-proxy/oauth2-proxy.cfg
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/oauth2-proxy
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: oauth2-proxy
+  namespace: chat
+spec:
+  ports:
+  - name: http
+    port: 4180
+    targetPort: 4180
+  selector:
+    app: oauth2-proxy
+
+

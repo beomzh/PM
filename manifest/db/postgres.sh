@@ -1,11 +1,11 @@
 #!/bin/bash
 
-podman stop pg-temp 2>/dev/null
-podman rm -f pg-temp 2>/dev/null
+docker stop pg-temp 2>/dev/null
+docker rm -f pg-temp 2>/dev/null
 
 
 # 임시
-podman run -d --name postgres \
+docker run -d --name postgres \
  -p 5432:5432 \
  -e POSTGRES_PASSWORD=temp_password \
  -e POSTGRES_DB=chat_db \
