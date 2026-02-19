@@ -3,14 +3,43 @@ const http = require('http');
 const { Server } = require("socket.io");
 const path = require('path');
 const { Kafka } = require('kafkajs');
+const { Pool } = require('pg');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: { origin: "*" },
+  transports: ['websocket'] // 400 에러 방지를 위해 웹소켓 고정
+});
 const port = 3000;
 
 app.use(express.json());
 app.use(express.static(__dirname));
+
+// --- PostgreSQL 설정 ---
+const pool = new Pool({
+  host: process.env.DB_HOST || 'db-service',
+  user: process.env.DB_USER || 'postgres',
+  password: process.env.DB_PASSWORD || 'password123',
+  database: process.env.DB_NAME || 'chatdb',
+  port: 5432,
+});
+
+const initDB = async () => {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS messages (
+        id SERIAL PRIMARY KEY,
+        sender_id TEXT NOT NULL,
+        text TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    console.log("✅ PostgreSQL Table Initialized");
+  } catch (err) {
+    console.error("❌ DB 초기화 실패:", err);
+  }
+};
 
 // --- Kafka 설정 ---
 const kafka = new Kafka({
@@ -19,11 +48,9 @@ const kafka = new Kafka({
 });
 
 const producer = kafka.producer();
-const consumer = kafka.consumer({ groupId: `chat-group-${Math.random()}` }); 
+const consumer = kafka.consumer({ groupId: `chat-group-${process.env.HOSTNAME || 'local'}` }); 
 
 let globalConnectedUsers = {};
-const messageHistory = []; // 과거 내역 저장용
-const lastMessageTimes = new Map();
 
 const initKafka = async () => {
   await producer.connect();
@@ -37,18 +64,19 @@ const initKafka = async () => {
       const data = JSON.parse(message.value.toString());
       
       if (topic === 'chat-messages') {
-        const msgData = { text: data.text, senderId: data.senderId };
-        // 📢 메시지 히스토리 업데이트 (최근 50개)
-        messageHistory.push(msgData);
-        if (messageHistory.length > 50) messageHistory.shift();
+        const { text, senderId } = data;
+        // 1. DB 저장
+        try {
+          await pool.query('INSERT INTO messages (sender_id, text) VALUES ($1, $2)', [senderId, text]);
+        } catch (err) { console.error("DB 저장 오류:", err); }
 
-        io.emit('chat message', msgData);
+        // 2. 전체 소켓 전송
+        io.emit('chat message', { text, senderId });
       } 
       else if (topic === 'chat-events') {
         if (data.type === 'JOIN') {
           globalConnectedUsers[data.username] = (globalConnectedUsers[data.username] || 0) + 1;
-        } 
-        else if (data.type === 'LEAVE') {
+        } else if (data.type === 'LEAVE') {
           if (globalConnectedUsers[data.username] > 0) {
             globalConnectedUsers[data.username]--;
             if (globalConnectedUsers[data.username] === 0) delete globalConnectedUsers[data.username];
@@ -61,7 +89,7 @@ const initKafka = async () => {
   });
 };
 
-initKafka().catch(console.error);
+initDB().then(() => initKafka()).catch(console.error);
 
 // --- API ---
 app.get('/api/user', (req, res) => {
@@ -72,55 +100,41 @@ app.get('/api/user', (req, res) => {
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 
 // --- Socket.io ---
-io.on('connection', (socket) => {
-  // 접속하자마자 메모리에 있는 과거 내역 전송
-  messageHistory.forEach((msg) => socket.emit('chat message', msg));
+io.on('connection', async (socket) => {
+  console.log("🔌 New Socket Connection:", socket.id);
+  
+  // 1. DB에서 과거 내역 가져와서 전송
+  try {
+    const res = await pool.query('SELECT sender_id as "senderId", text FROM messages ORDER BY created_at DESC LIMIT 50');
+    socket.emit('history', res.rows.reverse());
+  } catch (err) { console.error("히스토리 조회 실패:", err); }
   
   socket.on('register user', async (username) => {
     socket.username = username;
     await producer.send({
       topic: 'chat-events',
-      messages: [{ value: JSON.stringify({ 
-        type: 'JOIN', 
-        username: username,
-        text: `${username}님이 입장하셨습니다.` 
-      })}]
+      messages: [{ value: JSON.stringify({ type: 'JOIN', username: username, text: `${username}님이 입장하셨습니다.` })}]
     });
   });
 
   socket.on('chat message', async (data) => {
-    const now = Date.now();
-    const lastTime = lastMessageTimes.get(socket.id) || 0;
-    if (now - lastTime < 100) return;
     if (!data.text || data.text.length > 500) return;
-    lastMessageTimes.set(socket.id, now);
-    
     try {
       await producer.send({
         topic: 'chat-messages',
-        messages: [{ key: 'default-room', value: JSON.stringify({
-          senderId: data.senderId,
-          text: data.text
-        }) }],
+        messages: [{ key: data.senderId, value: JSON.stringify({ senderId: data.senderId, text: data.text }) }],
       });
-    } catch (err) {
-      console.error("Kafka 전송 실패:", err);
-    }
+    } catch (err) { console.error("Kafka 전송 실패:", err); }
   });
 
   socket.on('disconnect', async () => {
-    lastMessageTimes.delete(socket.id); // 도배 방지 맵 정리
     if (socket.username) {
       await producer.send({
         topic: 'chat-events',
-        messages: [{ value: JSON.stringify({ 
-          type: 'LEAVE', 
-          username: socket.username,
-          text: `${socket.username}님이 퇴장하셨습니다.` 
-        })}]
+        messages: [{ value: JSON.stringify({ type: 'LEAVE', username: socket.username, text: `${socket.username}님이 퇴장하셨습니다.` })}]
       });
     }
   });
 });
 
-server.listen(port, () => console.log(`🚀 Chat Server running on port ${port}`));
+server.listen(port, '0.0.0.0', () => console.log(`🚀 Chat Server running on port ${port}`));

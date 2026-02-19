@@ -4,9 +4,19 @@ metadata:
   name: chat-ingress
   namespace: chat
   annotations:
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: '600'
-    nginx.ingress.kubernetes.io/proxy-read-timeout: '600'
-    nginx.ingress.kubernetes.io/proxy-send-timeout: '600'
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: '3600'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/proxy-http-version: "1.1"
+    nginx.ingress.kubernetes.io/proxy-set-headers: "Upgrade=$http_upgrade;Connection=upgrade"
+    # WebSocket 지원 설정
+    nginx.ingress.kubernetes.io/websocket-services: "chat-service"
+    # Sticky Session 설정 (중요!)
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "route"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
     # oauth2-proxy 인증 설정
     nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.chat.svc.cluster.local:4180/oauth2/auth"
     nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"

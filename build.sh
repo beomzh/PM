@@ -50,3 +50,5 @@ fi
 
 # image 정리
 # podman image prune -f
+
+kubectl rollout restart deployment/chat-app

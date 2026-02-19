@@ -18,11 +18,17 @@
 </div>
 
 <div id="chat-container" class="chat-wrapper" style="display:none;">
-  <div class="user-sidebar" style="width: 120px; border-right: 1px solid #ddd; padding: 10px;">
-    <h5>접속자</h5>
-    <ul id="user-list" style="list-style: none; padding: 0; font-size: 0.8em;"></ul>
+  <div id="user-info-bar">
+    <span>현재 접속자: <strong id="user-count">0</strong>명</span>
+    <button id="view-users-btn" onclick="toggleUserList()">명단 보기</button>
   </div>
 
+  <div id="user-list-container" style="display: none;">
+    <h3>접속자 명단</h3>
+    <ul id="user-list"></ul>
+    <button onclick="toggleUserList()">닫기</button>
+  </div>
+  
   <div style="flex: 1; display: flex; flex-direction: column;">
     <div class="chat-header">
       <span>접속 중: <span id="display-name"></span></span>
